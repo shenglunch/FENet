@@ -4,55 +4,6 @@ import torch.nn as nn
 import torch.utils.data
 import torch.nn.functional as F
 
-def subpixel(disp, costFive0, costFive1, costFive2, costFive3, costFive4, maxdisp=192):
-    with torch.no_grad():
-        tmp1 = (costFive1 - costFive3)
-        tmp2 = (costFive1 - costFive2 - costFive2 + costFive3)
-        tmp3 = tmp1 - (costFive2 - costFive4)
-        tmp4 = (costFive0 - costFive2) - tmp1
-        d_sub = torch.zeros_like(disp, dtype=disp.dtype, device=disp.device)
-        mask = ((tmp1 > 0) & (tmp2 > 0)) | ((tmp1 < 0)  & (tmp2 < 0))
-        d_temp = ((tmp1 / (tmp2 + tmp2+0.0000001)) + (tmp1 / (tmp3+0.00000001))) / 2
-        d_sub[mask]=d_temp[mask]
-        d_temp = (( tmp1 / (tmp2 + tmp2+0.00000001)) + ( tmp1 / (tmp4+0.00000001))) / 2
-        mask = ~mask
-        d_sub[mask] = d_temp[mask]
-
-        mask = (disp==0)|(disp==maxdisp-1)
-        d_sub[mask]=0
-
-    return d_sub+disp
-
-def predict_disparity(cost, maxdisp=192): 
-    '''
-      input
-        cost: b, d, h, w
-      output
-        pre_disp: b, h, w
-    '''
-    with torch.no_grad():
-        # integer disparity
-        disp = torch.unsqueeze(cost, 1).argmax(2)
-        # window disparity
-        disp_1 = disp - 1
-        disp_1 = torch.where(disp_1 < 0, torch.full_like(disp_1, 0), disp_1)
-        disp_2 = disp - 2
-        disp_2 = torch.where(disp_2 < 0, torch.full_like(disp_2, 0), disp_2)
-        disp1 = disp + 1
-        disp1 = torch.where(disp1 > (maxdisp - 1), torch.full_like(disp1, maxdisp - 1), disp1)
-        disp2 = disp + 2
-        disp2 = torch.where(disp2 > (maxdisp - 1), torch.full_like(disp2, maxdisp - 1), disp2)
-        # disparity probability
-        pro_1 = torch.gather(cost, 1, disp_1)
-        pro_2 = torch.gather(cost, 1, disp_2)
-        pro = torch.gather(cost, 1, disp)
-        pro1 = torch.gather(cost, 1, disp1)
-        pro2 = torch.gather(cost, 1, disp2)
-        # subpixel
-        pre_disp = subpixel(disp.float(), 1 - pro_2, 1 - pro_1, 1 - pro, 1 - pro1, 1 - pro2, maxdisp)
-
-    return pre_disp
-
 def crossentropy_loss(costs, preds, gt, mask):
     cost_gt = torch.unsqueeze(gt, 1)
     bins = torch.zeros_like(costs[0]).cuda()
