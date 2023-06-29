@@ -1,6 +1,9 @@
 # FENet
 The code of 'Feature Enhancement Stereo Matching Network'. The full code will be published after the paper is accepted.
 
+# pretrained model
+https://drive.google.com/drive/folders/1d-6ZvMcweYRBglHJFgABHuYef5PTF5Mb?usp=drive_link
+
 # cite
 @article{chen2023feature,
   title={Feature enhancement network for stereo matching},
