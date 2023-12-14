@@ -8,19 +8,12 @@ https://drive.google.com/drive/folders/1d-6ZvMcweYRBglHJFgABHuYef5PTF5Mb?usp=dri
 
 # Cite
 @article{CHEN2023104614,
-
 title = {Feature enhancement network for stereo matching},
-
 journal = {Image and Vision Computing},
-
 volume = {130},
-
 pages = {104614},
-
 year = {2023},
-
 issn = {0262-8856}
-
 }
 
 # Acknowledge
