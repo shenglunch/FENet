@@ -7,14 +7,14 @@ This repository contains the highlights proposed in the paper, such as PCE modul
 https://drive.google.com/drive/folders/1d-6ZvMcweYRBglHJFgABHuYef5PTF5Mb?usp=drive_link
 
 # Cite
-@article{CHEN2023104614,
-title = {Feature enhancement network for stereo matching},
-journal = {Image and Vision Computing},
-volume = {130},
-pages = {104614},
-year = {2023},
-issn = {0262-8856}
-}
+@article{CHEN2023104614, \
+title = {Feature enhancement network for stereo matching}, \
+journal = {Image and Vision Computing}, \
+volume = {130}, \
+pages = {104614},  \
+year = {2023}, \
+issn = {0262-8856} \
+} \
 
 # Acknowledge
 GWCNet: https://github.com/xy-guo/GwcNet
