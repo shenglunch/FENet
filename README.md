@@ -14,7 +14,7 @@ volume = {130}, \
 pages = {104614},  \
 year = {2023}, \
 issn = {0262-8856} \
-} \
+}
 
 # Acknowledge
 GWCNet: https://github.com/xy-guo/GwcNet
